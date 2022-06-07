@@ -13,7 +13,7 @@ terraform {
   backend "remote" {
     hostname      = "app.terraform.io"
     organization  = "pfe-gitops"  # Organization should already exists in Terraform Cloud
-    
+
     workspaces {
       name = "pfe-gitops-terraform-infra"
       # Two cases: 
@@ -33,7 +33,7 @@ resource "random_string" "myrandom" {
   length = 6
   upper = false 
   special = false
-  number = false   
+  numeric = false
 }
 
 resource "random_pet" "aksrandom" {}
