@@ -52,4 +52,5 @@ variable "environment" {
 variable "ssh_public_key" {
   type        = string
   description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"
+  sensitive   = true
 }

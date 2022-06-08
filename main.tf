@@ -54,4 +54,9 @@ resource "random_string" "myrandom" {
   numeric = false
 }
 
-resource "random_pet" "aksrandom" {}
+# Export kubeconfig to local file for immediate kubectl connection
+resource "local_file" "kubeconfig" {
+  depends_on = [azurerm_kubernetes_cluster.aks_cluster]
+  filename   = "~/.kube/config"
+  content    = azurerm_kubernetes_cluster.aks_cluster.kube_admin_config_raw
+}
