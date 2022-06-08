@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.9.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.22.0"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.11.0"
@@ -44,6 +48,7 @@ provider "azuread" {
   tenant_id     = var.tenant_id
   client_id     = var.client_id
   client_secret = var.client_secret
+  version       = "=2.22.0"
 }
 
 # Random String Resource
