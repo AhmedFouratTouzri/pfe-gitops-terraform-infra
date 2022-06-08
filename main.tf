@@ -23,12 +23,16 @@ terraform {
   }
 }
 
+data "azuread_service_principal" "k8s-sp" {
+  application_id = "7f322fe4-a924-4e18-a61e-dfb47b566efa"
+}
+
 # Provider Block
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
-  tenant_id       = var.tenant_id
-  client_id       = var.client_id
+  tenant_id       = data.azuread_service_principal.k8s-sp.application_tenant_id
+  client_id       = data.azuread_service_principal.k8s-sp.application_id
   client_secret   = var.client_secret
 }
 
