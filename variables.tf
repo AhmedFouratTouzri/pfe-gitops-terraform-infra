@@ -1,8 +1,8 @@
 # Azure tenant ID
 variable "tenant_id" {
-  type = string
+  type        = string
   description = "Azure Service Principal tenant ID"
-  default = "470498c0-975f-4d24-9391-3e4be3c30fd2"
+  default     = "470498c0-975f-4d24-9391-3e4be3c30fd2"
 }
 
 # Azure Location
