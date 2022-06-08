@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.9.0"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.11.0"
+    }
     random = {
       source  = "hashicorp/random"
       version = "3.3.1"
