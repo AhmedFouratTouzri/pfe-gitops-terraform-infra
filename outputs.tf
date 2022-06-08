@@ -48,5 +48,6 @@ output "aks_cluster_kubeconfig" {
 }
 
 output "aks_cluster_apiserver_fqdn" {
-  value = azurerm_kubernetes_cluster.aks_cluster.kube_admin_config[0].host
+  value     = azurerm_kubernetes_cluster.aks_cluster.kube_admin_config[0].host
+  sensitive = true
 }
