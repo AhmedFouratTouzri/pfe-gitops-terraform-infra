@@ -10,28 +10,28 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     name                 = "systempool"
     vm_size              = "Standard_B2s"
     orchestrator_version = data.azurerm_kubernetes_service_versions.current.latest_version
-    zones                = [] 
+    zones                = []
     enable_auto_scaling  = true
     max_count            = 3
     min_count            = 1
     os_disk_size_gb      = 30
     type                 = "VirtualMachineScaleSets"
-    vnet_subnet_id        = azurerm_subnet.aks-default.id 
+    vnet_subnet_id       = azurerm_subnet.aks-default.id
     node_labels = {
-      "nodepool-type"    = "system"
-      "environment"      = "dev"
-      "nodepoolos"       = "linux"
-      "app"              = "system-apps" 
-    } 
-   tags = {
-      "nodepool-type"    = "system"
-      "environment"      = "dev"
-      "nodepoolos"       = "linux"
-      "app"              = "system-apps" 
-   } 
+      "nodepool-type" = "system"
+      "environment"   = "dev"
+      "nodepoolos"    = "linux"
+      "app"           = "system-apps"
+    }
+    tags = {
+      "nodepool-type" = "system"
+      "environment"   = "dev"
+      "nodepoolos"    = "linux"
+      "app"           = "system-apps"
+    }
   }
 
-# Identity (System Assigned or Service Principal)
+  # Identity (System Assigned or Service Principal)
   identity {
     type = "SystemAssigned"
   }
@@ -39,11 +39,11 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   # RBAC and Azure AD Integration Block
   role_based_access_control_enabled = true
   azure_active_directory_role_based_access_control {
-    managed = true
+    managed                = true
     admin_group_object_ids = [azuread_group.aks_administrators.id]
   }
 
-# Linux Profile
+  # Linux Profile
   linux_profile {
     admin_username = "touzria"
     ssh_key {
@@ -51,9 +51,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     }
   }
 
-# Network Profile
+  # Network Profile
   network_profile {
-    network_plugin = "azure"
+    network_plugin    = "azure"
     load_balancer_sku = "standard"
   }
 

@@ -1,26 +1,33 @@
+# Azure tenant ID
+variable "tenant_id" {
+  type = string
+  description = "Azure Service Principal tenant ID"
+  default = "470498c0-975f-4d24-9391-3e4be3c30fd2"
+}
+
 # Azure Location
 variable "location" {
-  type = string
+  type        = string
   description = "Azure Region where all these resources will be provisioned"
-  default = "East US"
+  default     = "East US"
 }
 
 # Azure Resource Group Name
 variable "resource_group_name" {
-  type = string
+  type        = string
   description = "This variable defines the Resource Group"
-  default = "pfe-gitops"
+  default     = "pfe-gitops"
 }
 
 # Azure AKS Environment Name
 variable "environment" {
-  type = string  
-  description = "This variable defines the Environment"  
-  default = "dev"
+  type        = string
+  description = "This variable defines the Environment"
+  default     = "dev"
 }
 
 # AKS Input Variables
 variable "ssh_public_key" {
-  default = "~/.ssh/pfe-gitops-terraform/id_rsa.pub"
-  description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"  
+  default     = "~/.ssh/pfe-gitops-terraform/id_rsa.pub"
+  description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"
 }
