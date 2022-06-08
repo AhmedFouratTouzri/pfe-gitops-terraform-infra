@@ -50,6 +50,6 @@ variable "environment" {
 
 # AKS Input Variables
 variable "ssh_public_key" {
-  default     = "~/.ssh/pfe-gitops-terraform/id_rsa.pub"
+  type        = string
   description = "This variable defines the SSH Public Key for Linux k8s Worker nodes"
 }
