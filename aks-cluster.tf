@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     zones                = []
     enable_auto_scaling  = true
     max_count            = 3
-    min_count            = 1
+    min_count            = 2
     os_disk_size_gb      = 30
     type                 = "VirtualMachineScaleSets"
     vnet_subnet_id       = azurerm_subnet.aks-default.id
