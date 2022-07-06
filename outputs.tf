@@ -51,3 +51,7 @@ output "aks_cluster_apiserver_fqdn" {
   value     = azurerm_kubernetes_cluster.aks_cluster.kube_admin_config[0].host
   sensitive = true
 }
+
+output "argocd_manifest" {
+  value = data.http.argocd_remote_manifest.response_body
+}
