@@ -18,6 +18,10 @@ terraform {
       source  = "hashicorp/http"
       version = "2.2.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.6.0"
+    }
     random = {
       source  = "hashicorp/random"
       version = "3.3.1"
@@ -53,6 +57,15 @@ provider "azuread" {
   tenant_id     = var.tenant_id
   client_id     = var.client_id
   client_secret = var.client_secret
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+  experiments {
+    manifest = true
+  }
 }
 
 # Random String Resource

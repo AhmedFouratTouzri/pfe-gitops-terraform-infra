@@ -32,6 +32,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     }
   }
 
+
   # Identity (System Assigned or Service Principal)
   identity {
     type = "SystemAssigned"
@@ -42,6 +43,19 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = [azuread_group.aks_administrators.id]
+    azure_rbac_enabled = true
+  }
+
+  oms_agent {
+    log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log-analytics-workspace.id
+  }
+
+  enable_pod_security_policy = true
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
+  microsoft_defender {
+    log_analytics_workspace_id = data.azurerm_log_analytics_workspace.log-analytics-workspace.id
   }
 
   # Linux Profile
@@ -61,4 +75,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   tags = {
     Environment = var.environment
   }
+}
+
+data "azurerm_log_analytics_workspace" "log-analytics-workspace" {
+  name = "aks-logs-analytics-workspace"
+  resource_group_name = "pfe-gitops"
 }
