@@ -16,11 +16,11 @@ resource "azurerm_subnet" "aks-default" {
 }
 
 data "azurerm_network_security_group" "aks-nsg" {
-  name = "aks-agentpool-10305198-nsg"
+  name                = "aks-agentpool-10305198-nsg"
   resource_group_name = "pfe-gitops-dev-nrg"
 }
 
 resource "azurerm_subnet_network_security_group_association" "nsg-subnet-association" {
   network_security_group_id = data.azurerm_network_security_group.aks-nsg.id
-  subnet_id = azurerm_subnet.aks-default.id
+  subnet_id                 = azurerm_subnet.aks-default.id
 }
