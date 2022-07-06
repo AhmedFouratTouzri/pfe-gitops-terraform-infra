@@ -6,6 +6,9 @@ resource "helm_release" "cert-manager-chart" {
   create_namespace = true
   lint = true
   cleanup_on_fail = true
+  depends_on = [
+    azurerm_kubernetes_cluster.aks_cluster
+  ]
 }
 
 resource "helm_release" "nginx-ingress-chart" {
@@ -16,6 +19,9 @@ resource "helm_release" "nginx-ingress-chart" {
   create_namespace = true
   lint = true
   cleanup_on_fail = true
+  depends_on = [
+    azurerm_kubernetes_cluster.aks_cluster
+  ]
 }
 
 resource "helm_release" "kube-prometheus-stack-chart" {
@@ -26,6 +32,9 @@ resource "helm_release" "kube-prometheus-stack-chart" {
   create_namespace = true
   lint = true
   cleanup_on_fail = true
+  depends_on = [
+    azurerm_kubernetes_cluster.aks_cluster
+  ]
 }
 
 resource "helm_release" "prometheus-blackbox-exporter-chart" {
@@ -36,6 +45,9 @@ resource "helm_release" "prometheus-blackbox-exporter-chart" {
   create_namespace = true
   lint = true
   cleanup_on_fail = true
+  depends_on = [
+    azurerm_kubernetes_cluster.aks_cluster
+  ]
 }
 
 resource "helm_release" "secrets-store-csi-driver-chart" {
@@ -46,4 +58,7 @@ resource "helm_release" "secrets-store-csi-driver-chart" {
   create_namespace = true
   lint = true
   cleanup_on_fail = true
+  depends_on = [
+    azurerm_kubernetes_cluster.aks_cluster
+  ]
 }
