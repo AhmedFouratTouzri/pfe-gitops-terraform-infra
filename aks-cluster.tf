@@ -43,7 +43,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   azure_active_directory_role_based_access_control {
     managed                = true
     admin_group_object_ids = [azuread_group.aks_administrators.id]
-    azure_rbac_enabled = true
+    azure_rbac_enabled     = true
   }
 
   oms_agent {
@@ -78,6 +78,6 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 }
 
 data "azurerm_log_analytics_workspace" "log-analytics-workspace" {
-  name = "aks-logs-analytics-workspace"
+  name                = "aks-logs-analytics-workspace"
   resource_group_name = "pfe-gitops"
 }

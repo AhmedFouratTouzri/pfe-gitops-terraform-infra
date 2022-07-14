@@ -7,10 +7,10 @@ resource "kubernetes_namespace_v1" "argocd_namespace" {
 resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_io" {
   manifest = {
     "apiVersion" = "apiextensions.k8s.io/v1"
-    "kind" = "CustomResourceDefinition"
+    "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "applications.argoproj.io"
+        "app.kubernetes.io/name"    = "applications.argoproj.io"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "applications.argoproj.io"
@@ -18,9 +18,9 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
     "spec" = {
       "group" = "argoproj.io"
       "names" = {
-        "kind" = "Application"
+        "kind"     = "Application"
         "listKind" = "ApplicationList"
-        "plural" = "applications"
+        "plural"   = "applications"
         "shortNames" = [
           "app",
           "apps",
@@ -33,19 +33,19 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
           "additionalPrinterColumns" = [
             {
               "jsonPath" = ".status.sync.status"
-              "name" = "Sync Status"
-              "type" = "string"
+              "name"     = "Sync Status"
+              "type"     = "string"
             },
             {
               "jsonPath" = ".status.health.status"
-              "name" = "Health Status"
-              "type" = "string"
+              "name"     = "Health Status"
+              "type"     = "string"
             },
             {
               "jsonPath" = ".status.sync.revision"
-              "name" = "Revision"
+              "name"     = "Revision"
               "priority" = 10
-              "type" = "string"
+              "type"     = "string"
             },
           ]
           "name" = "v1alpha1"
@@ -55,11 +55,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
               "properties" = {
                 "apiVersion" = {
                   "description" = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
-                  "type" = "string"
+                  "type"        = "string"
                 }
                 "kind" = {
                   "description" = "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
-                  "type" = "string"
+                  "type"        = "string"
                 }
                 "metadata" = {
                   "type" = "object"
@@ -91,11 +91,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                       "properties" = {
                         "automated" = {
                           "description" = "Automated is set to true if operation was initiated automatically by the application controller."
-                          "type" = "boolean"
+                          "type"        = "boolean"
                         }
                         "username" = {
                           "description" = "Username contains the name of a user who started operation"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                       }
                       "type" = "object"
@@ -108,24 +108,24 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                           "properties" = {
                             "duration" = {
                               "description" = "Duration is the amount to back off. Default unit is seconds, but could also be a duration (e.g. \"2m\", \"1h\")"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "factor" = {
                               "description" = "Factor is a factor to multiply the base duration after each failed retry"
-                              "format" = "int64"
-                              "type" = "integer"
+                              "format"      = "int64"
+                              "type"        = "integer"
                             }
                             "maxDuration" = {
                               "description" = "MaxDuration is the maximum amount of time allowed for the backoff strategy"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                           }
                           "type" = "object"
                         }
                         "limit" = {
                           "description" = "Limit is the maximum number of attempts for retrying a failed sync. If set to 0, no retries will be performed."
-                          "format" = "int64"
-                          "type" = "integer"
+                          "format"      = "int64"
+                          "type"        = "integer"
                         }
                       }
                       "type" = "object"
@@ -135,7 +135,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                       "properties" = {
                         "dryRun" = {
                           "description" = "DryRun specifies to perform a `kubectl apply --dry-run` without actually performing the sync"
-                          "type" = "boolean"
+                          "type"        = "boolean"
                         }
                         "manifests" = {
                           "description" = "Manifests is an optional field that overrides sync source with a local directory for development"
@@ -146,7 +146,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         }
                         "prune" = {
                           "description" = "Prune specifies to delete resources from the cluster that are no longer tracked in git"
-                          "type" = "boolean"
+                          "type"        = "boolean"
                         }
                         "resources" = {
                           "description" = "Resources describes which resources shall be part of the sync"
@@ -176,25 +176,25 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         }
                         "revision" = {
                           "description" = "Revision is the revision (Git) or chart version (Helm) which to sync the application to If omitted, will use the revision specified in app spec."
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "source" = {
                           "description" = "Source overrides the source definition set in the application. This is typically set in a Rollback operation and is nil during a Sync operation"
                           "properties" = {
                             "chart" = {
                               "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "directory" = {
                               "description" = "Directory holds path/directory specific options"
                               "properties" = {
                                 "exclude" = {
                                   "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "include" = {
                                   "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "jsonnet" = {
                                   "description" = "Jsonnet holds options specific to Jsonnet"
@@ -257,7 +257,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "recurse" = {
                                   "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                               }
                               "type" = "object"
@@ -272,11 +272,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     "properties" = {
                                       "name" = {
                                         "description" = "Name is the name of the Helm parameter"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                       "path" = {
                                         "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                     }
                                     "type" = "object"
@@ -285,7 +285,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "ignoreMissingValueFiles" = {
                                   "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "parameters" = {
                                   "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -294,15 +294,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     "properties" = {
                                       "forceString" = {
                                         "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                        "type" = "boolean"
+                                        "type"        = "boolean"
                                       }
                                       "name" = {
                                         "description" = "Name is the name of the Helm parameter"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                       "value" = {
                                         "description" = "Value is the value for the Helm parameter"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                     }
                                     "type" = "object"
@@ -311,15 +311,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "passCredentials" = {
                                   "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "releaseName" = {
                                   "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "skipCrds" = {
                                   "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "valueFiles" = {
                                   "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -330,11 +330,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "values" = {
                                   "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "version" = {
                                   "description" = "Version is the Helm version to use for templating (\"3\")"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "type" = "object"
@@ -347,49 +347,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     "type" = "string"
                                   }
                                   "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                                  "type" = "object"
+                                  "type"        = "object"
                                 }
                                 "commonLabels" = {
                                   "additionalProperties" = {
                                     "type" = "string"
                                   }
                                   "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                                  "type" = "object"
+                                  "type"        = "object"
                                 }
                                 "forceCommonAnnotations" = {
                                   "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "forceCommonLabels" = {
                                   "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "images" = {
                                   "description" = "Images is a list of Kustomize image override specifications"
                                   "items" = {
                                     "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "type" = "array"
                                 }
                                 "namePrefix" = {
                                   "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "nameSuffix" = {
                                   "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "version" = {
                                   "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "type" = "object"
                             }
                             "path" = {
                               "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "plugin" = {
                               "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -401,11 +401,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     "properties" = {
                                       "name" = {
                                         "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                       "value" = {
                                         "description" = "Value is the value of the variable"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                     }
                                     "required" = [
@@ -424,11 +424,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "repoURL" = {
                               "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "targetRevision" = {
                               "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                              "type" = "string"
+                              "type"        = "string"
                             }
                           }
                           "required" = [
@@ -451,7 +451,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "force" = {
                                   "description" = "Force indicates whether or not to supply the --force flag to `kubectl apply`. The --force flag deletes and re-create the resource, when PATCH encounters conflict and has retried for 5 times."
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                               }
                               "type" = "object"
@@ -461,7 +461,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "force" = {
                                   "description" = "Force indicates whether or not to supply the --force flag to `kubectl apply`. The --force flag deletes and re-create the resource, when PATCH encounters conflict and has retried for 5 times."
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                               }
                               "type" = "object"
@@ -483,15 +483,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                       "properties" = {
                         "name" = {
                           "description" = "Name is an alternate way of specifying the target cluster by its symbolic name"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "namespace" = {
                           "description" = "Namespace specifies the target namespace for the application's resources. The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "server" = {
                           "description" = "Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                       }
                       "type" = "object"
@@ -561,30 +561,30 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                     }
                     "project" = {
                       "description" = "Project is a reference to the project this application belongs to. The empty string means that application belongs to the 'default' project."
-                      "type" = "string"
+                      "type"        = "string"
                     }
                     "revisionHistoryLimit" = {
                       "description" = "RevisionHistoryLimit limits the number of items kept in the application's revision history, which is used for informational purposes as well as for rollbacks to previous versions. This should only be changed in exceptional circumstances. Setting to zero will store no history. This will reduce storage used. Increasing will increase the space used to store the history, so we do not recommend increasing it. Default is 10."
-                      "format" = "int64"
-                      "type" = "integer"
+                      "format"      = "int64"
+                      "type"        = "integer"
                     }
                     "source" = {
                       "description" = "Source is a reference to the location of the application's manifests or chart"
                       "properties" = {
                         "chart" = {
                           "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "directory" = {
                           "description" = "Directory holds path/directory specific options"
                           "properties" = {
                             "exclude" = {
                               "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "include" = {
                               "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "jsonnet" = {
                               "description" = "Jsonnet holds options specific to Jsonnet"
@@ -647,7 +647,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "recurse" = {
                               "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                           }
                           "type" = "object"
@@ -662,11 +662,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 "properties" = {
                                   "name" = {
                                     "description" = "Name is the name of the Helm parameter"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "path" = {
                                     "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "type" = "object"
@@ -675,7 +675,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "ignoreMissingValueFiles" = {
                               "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "parameters" = {
                               "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -684,15 +684,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 "properties" = {
                                   "forceString" = {
                                     "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "name" = {
                                     "description" = "Name is the name of the Helm parameter"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "value" = {
                                     "description" = "Value is the value for the Helm parameter"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "type" = "object"
@@ -701,15 +701,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "passCredentials" = {
                               "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "releaseName" = {
                               "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "skipCrds" = {
                               "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "valueFiles" = {
                               "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -720,11 +720,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "values" = {
                               "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "version" = {
                               "description" = "Version is the Helm version to use for templating (\"3\")"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                           }
                           "type" = "object"
@@ -737,49 +737,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 "type" = "string"
                               }
                               "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                              "type" = "object"
+                              "type"        = "object"
                             }
                             "commonLabels" = {
                               "additionalProperties" = {
                                 "type" = "string"
                               }
                               "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                              "type" = "object"
+                              "type"        = "object"
                             }
                             "forceCommonAnnotations" = {
                               "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "forceCommonLabels" = {
                               "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "images" = {
                               "description" = "Images is a list of Kustomize image override specifications"
                               "items" = {
                                 "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                "type" = "string"
+                                "type"        = "string"
                               }
                               "type" = "array"
                             }
                             "namePrefix" = {
                               "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "nameSuffix" = {
                               "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "version" = {
                               "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                           }
                           "type" = "object"
                         }
                         "path" = {
                           "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "plugin" = {
                           "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -791,11 +791,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 "properties" = {
                                   "name" = {
                                     "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "value" = {
                                     "description" = "Value is the value of the variable"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "required" = [
@@ -814,11 +814,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         }
                         "repoURL" = {
                           "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "targetRevision" = {
                           "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                          "type" = "string"
+                          "type"        = "string"
                         }
                       }
                       "required" = [
@@ -834,15 +834,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                           "properties" = {
                             "allowEmpty" = {
                               "description" = "AllowEmpty allows apps have zero live resources (default: false)"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "prune" = {
                               "description" = "Prune specifies whether to delete resources from the cluster that are not found in the sources anymore as part of automated sync (default: false)"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                             "selfHeal" = {
                               "description" = "SelfHeal specifes whether to revert resources back to their desired state upon modification in the cluster (default: false)"
-                              "type" = "boolean"
+                              "type"        = "boolean"
                             }
                           }
                           "type" = "object"
@@ -855,24 +855,24 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "duration" = {
                                   "description" = "Duration is the amount to back off. Default unit is seconds, but could also be a duration (e.g. \"2m\", \"1h\")"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "factor" = {
                                   "description" = "Factor is a factor to multiply the base duration after each failed retry"
-                                  "format" = "int64"
-                                  "type" = "integer"
+                                  "format"      = "int64"
+                                  "type"        = "integer"
                                 }
                                 "maxDuration" = {
                                   "description" = "MaxDuration is the maximum amount of time allowed for the backoff strategy"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "type" = "object"
                             }
                             "limit" = {
                               "description" = "Limit is the maximum number of attempts for retrying a failed sync. If set to 0, no retries will be performed."
-                              "format" = "int64"
-                              "type" = "integer"
+                              "format"      = "int64"
+                              "type"        = "integer"
                             }
                           }
                           "type" = "object"
@@ -905,16 +905,16 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         "properties" = {
                           "lastTransitionTime" = {
                             "description" = "LastTransitionTime is the time the condition was last observed"
-                            "format" = "date-time"
-                            "type" = "string"
+                            "format"      = "date-time"
+                            "type"        = "string"
                           }
                           "message" = {
                             "description" = "Message contains human-readable message indicating details about condition"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "type" = {
                             "description" = "Type is an application condition type"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                         }
                         "required" = [
@@ -930,11 +930,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                       "properties" = {
                         "message" = {
                           "description" = "Message is a human-readable informational message describing the health status"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "status" = {
                           "description" = "Status holds the status code of the application or resource"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                       }
                       "type" = "object"
@@ -946,40 +946,40 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         "properties" = {
                           "deployStartedAt" = {
                             "description" = "DeployStartedAt holds the time the sync operation started"
-                            "format" = "date-time"
-                            "type" = "string"
+                            "format"      = "date-time"
+                            "type"        = "string"
                           }
                           "deployedAt" = {
                             "description" = "DeployedAt holds the time the sync operation completed"
-                            "format" = "date-time"
-                            "type" = "string"
+                            "format"      = "date-time"
+                            "type"        = "string"
                           }
                           "id" = {
                             "description" = "ID is an auto incrementing identifier of the RevisionHistory"
-                            "format" = "int64"
-                            "type" = "integer"
+                            "format"      = "int64"
+                            "type"        = "integer"
                           }
                           "revision" = {
                             "description" = "Revision holds the revision the sync was performed against"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "source" = {
                             "description" = "Source is a reference to the application source used for the sync operation"
                             "properties" = {
                               "chart" = {
                                 "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                                "type" = "string"
+                                "type"        = "string"
                               }
                               "directory" = {
                                 "description" = "Directory holds path/directory specific options"
                                 "properties" = {
                                   "exclude" = {
                                     "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "include" = {
                                     "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "jsonnet" = {
                                     "description" = "Jsonnet holds options specific to Jsonnet"
@@ -1042,7 +1042,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                   }
                                   "recurse" = {
                                     "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                 }
                                 "type" = "object"
@@ -1057,11 +1057,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "properties" = {
                                         "name" = {
                                           "description" = "Name is the name of the Helm parameter"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "path" = {
                                           "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                       }
                                       "type" = "object"
@@ -1070,7 +1070,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                   }
                                   "ignoreMissingValueFiles" = {
                                     "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "parameters" = {
                                     "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -1079,15 +1079,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "properties" = {
                                         "forceString" = {
                                           "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "name" = {
                                           "description" = "Name is the name of the Helm parameter"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "value" = {
                                           "description" = "Value is the value for the Helm parameter"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                       }
                                       "type" = "object"
@@ -1096,15 +1096,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                   }
                                   "passCredentials" = {
                                     "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "releaseName" = {
                                     "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "skipCrds" = {
                                     "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "valueFiles" = {
                                     "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -1115,11 +1115,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                   }
                                   "values" = {
                                     "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "version" = {
                                     "description" = "Version is the Helm version to use for templating (\"3\")"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "type" = "object"
@@ -1132,49 +1132,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "type" = "string"
                                     }
                                     "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                                    "type" = "object"
+                                    "type"        = "object"
                                   }
                                   "commonLabels" = {
                                     "additionalProperties" = {
                                       "type" = "string"
                                     }
                                     "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                                    "type" = "object"
+                                    "type"        = "object"
                                   }
                                   "forceCommonAnnotations" = {
                                     "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "forceCommonLabels" = {
                                     "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                                    "type" = "boolean"
+                                    "type"        = "boolean"
                                   }
                                   "images" = {
                                     "description" = "Images is a list of Kustomize image override specifications"
                                     "items" = {
                                       "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "type" = "array"
                                   }
                                   "namePrefix" = {
                                     "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "nameSuffix" = {
                                     "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "version" = {
                                     "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "type" = "object"
                               }
                               "path" = {
                                 "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                                "type" = "string"
+                                "type"        = "string"
                               }
                               "plugin" = {
                                 "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -1186,11 +1186,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "properties" = {
                                         "name" = {
                                           "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "value" = {
                                           "description" = "Value is the value of the variable"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                       }
                                       "required" = [
@@ -1209,11 +1209,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               }
                               "repoURL" = {
                                 "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                                "type" = "string"
+                                "type"        = "string"
                               }
                               "targetRevision" = {
                                 "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                                "type" = "string"
+                                "type"        = "string"
                               }
                             }
                             "required" = [
@@ -1233,20 +1233,20 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                     }
                     "observedAt" = {
                       "description" = "ObservedAt indicates when the application state was updated without querying latest git state Deprecated: controller no longer updates ObservedAt field"
-                      "format" = "date-time"
-                      "type" = "string"
+                      "format"      = "date-time"
+                      "type"        = "string"
                     }
                     "operationState" = {
                       "description" = "OperationState contains information about any ongoing operations, such as a sync"
                       "properties" = {
                         "finishedAt" = {
                           "description" = "FinishedAt contains time of operation completion"
-                          "format" = "date-time"
-                          "type" = "string"
+                          "format"      = "date-time"
+                          "type"        = "string"
                         }
                         "message" = {
                           "description" = "Message holds any pertinent messages when attempting to perform operation (typically errors)."
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "operation" = {
                           "description" = "Operation is the original requested operation"
@@ -1275,11 +1275,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "automated" = {
                                   "description" = "Automated is set to true if operation was initiated automatically by the application controller."
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "username" = {
                                   "description" = "Username contains the name of a user who started operation"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "type" = "object"
@@ -1292,24 +1292,24 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                   "properties" = {
                                     "duration" = {
                                       "description" = "Duration is the amount to back off. Default unit is seconds, but could also be a duration (e.g. \"2m\", \"1h\")"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "factor" = {
                                       "description" = "Factor is a factor to multiply the base duration after each failed retry"
-                                      "format" = "int64"
-                                      "type" = "integer"
+                                      "format"      = "int64"
+                                      "type"        = "integer"
                                     }
                                     "maxDuration" = {
                                       "description" = "MaxDuration is the maximum amount of time allowed for the backoff strategy"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "type" = "object"
                                 }
                                 "limit" = {
                                   "description" = "Limit is the maximum number of attempts for retrying a failed sync. If set to 0, no retries will be performed."
-                                  "format" = "int64"
-                                  "type" = "integer"
+                                  "format"      = "int64"
+                                  "type"        = "integer"
                                 }
                               }
                               "type" = "object"
@@ -1319,7 +1319,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "dryRun" = {
                                   "description" = "DryRun specifies to perform a `kubectl apply --dry-run` without actually performing the sync"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "manifests" = {
                                   "description" = "Manifests is an optional field that overrides sync source with a local directory for development"
@@ -1330,7 +1330,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "prune" = {
                                   "description" = "Prune specifies to delete resources from the cluster that are no longer tracked in git"
-                                  "type" = "boolean"
+                                  "type"        = "boolean"
                                 }
                                 "resources" = {
                                   "description" = "Resources describes which resources shall be part of the sync"
@@ -1360,25 +1360,25 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "revision" = {
                                   "description" = "Revision is the revision (Git) or chart version (Helm) which to sync the application to If omitted, will use the revision specified in app spec."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "source" = {
                                   "description" = "Source overrides the source definition set in the application. This is typically set in a Rollback operation and is nil during a Sync operation"
                                   "properties" = {
                                     "chart" = {
                                       "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "directory" = {
                                       "description" = "Directory holds path/directory specific options"
                                       "properties" = {
                                         "exclude" = {
                                           "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "include" = {
                                           "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "jsonnet" = {
                                           "description" = "Jsonnet holds options specific to Jsonnet"
@@ -1441,7 +1441,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         }
                                         "recurse" = {
                                           "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                       }
                                       "type" = "object"
@@ -1456,11 +1456,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                             "properties" = {
                                               "name" = {
                                                 "description" = "Name is the name of the Helm parameter"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                               "path" = {
                                                 "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                             }
                                             "type" = "object"
@@ -1469,7 +1469,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         }
                                         "ignoreMissingValueFiles" = {
                                           "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "parameters" = {
                                           "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -1478,15 +1478,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                             "properties" = {
                                               "forceString" = {
                                                 "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                                "type" = "boolean"
+                                                "type"        = "boolean"
                                               }
                                               "name" = {
                                                 "description" = "Name is the name of the Helm parameter"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                               "value" = {
                                                 "description" = "Value is the value for the Helm parameter"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                             }
                                             "type" = "object"
@@ -1495,15 +1495,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         }
                                         "passCredentials" = {
                                           "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "releaseName" = {
                                           "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "skipCrds" = {
                                           "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "valueFiles" = {
                                           "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -1514,11 +1514,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         }
                                         "values" = {
                                           "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "version" = {
                                           "description" = "Version is the Helm version to use for templating (\"3\")"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                       }
                                       "type" = "object"
@@ -1531,49 +1531,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                             "type" = "string"
                                           }
                                           "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                                          "type" = "object"
+                                          "type"        = "object"
                                         }
                                         "commonLabels" = {
                                           "additionalProperties" = {
                                             "type" = "string"
                                           }
                                           "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                                          "type" = "object"
+                                          "type"        = "object"
                                         }
                                         "forceCommonAnnotations" = {
                                           "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "forceCommonLabels" = {
                                           "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                         "images" = {
                                           "description" = "Images is a list of Kustomize image override specifications"
                                           "items" = {
                                             "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "type" = "array"
                                         }
                                         "namePrefix" = {
                                           "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "nameSuffix" = {
                                           "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                         "version" = {
                                           "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                                          "type" = "string"
+                                          "type"        = "string"
                                         }
                                       }
                                       "type" = "object"
                                     }
                                     "path" = {
                                       "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "plugin" = {
                                       "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -1585,11 +1585,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                             "properties" = {
                                               "name" = {
                                                 "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                               "value" = {
                                                 "description" = "Value is the value of the variable"
-                                                "type" = "string"
+                                                "type"        = "string"
                                               }
                                             }
                                             "required" = [
@@ -1608,11 +1608,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "repoURL" = {
                                       "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "targetRevision" = {
                                       "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "required" = [
@@ -1635,7 +1635,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "properties" = {
                                         "force" = {
                                           "description" = "Force indicates whether or not to supply the --force flag to `kubectl apply`. The --force flag deletes and re-create the resource, when PATCH encounters conflict and has retried for 5 times."
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                       }
                                       "type" = "object"
@@ -1645,7 +1645,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                       "properties" = {
                                         "force" = {
                                           "description" = "Force indicates whether or not to supply the --force flag to `kubectl apply`. The --force flag deletes and re-create the resource, when PATCH encounters conflict and has retried for 5 times."
-                                          "type" = "boolean"
+                                          "type"        = "boolean"
                                         }
                                       }
                                       "type" = "object"
@@ -1661,17 +1661,17 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         }
                         "phase" = {
                           "description" = "Phase is the current phase of the operation"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "retryCount" = {
                           "description" = "RetryCount contains time of operation retries"
-                          "format" = "int64"
-                          "type" = "integer"
+                          "format"      = "int64"
+                          "type"        = "integer"
                         }
                         "startedAt" = {
                           "description" = "StartedAt contains time of operation start"
-                          "format" = "date-time"
-                          "type" = "string"
+                          "format"      = "date-time"
+                          "type"        = "string"
                         }
                         "syncResult" = {
                           "description" = "SyncResult is the result of a Sync operation"
@@ -1683,43 +1683,43 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 "properties" = {
                                   "group" = {
                                     "description" = "Group specifies the API group of the resource"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "hookPhase" = {
                                     "description" = "HookPhase contains the state of any operation associated with this resource OR hook This can also contain values for non-hook resources."
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "hookType" = {
                                     "description" = "HookType specifies the type of the hook. Empty for non-hook resources"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "kind" = {
                                     "description" = "Kind specifies the API kind of the resource"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "message" = {
                                     "description" = "Message contains an informational or error message for the last sync OR operation"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "name" = {
                                     "description" = "Name specifies the name of the resource"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "namespace" = {
                                     "description" = "Namespace specifies the target namespace of the resource"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "status" = {
                                     "description" = "Status holds the final result of the sync. Will be empty if the resources is yet to be applied/pruned and is always zero-value for hooks"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "syncPhase" = {
                                     "description" = "SyncPhase indicates the particular phase of the sync that this result was acquired in"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                   "version" = {
                                     "description" = "Version specifies the API version of the resource"
-                                    "type" = "string"
+                                    "type"        = "string"
                                   }
                                 }
                                 "required" = [
@@ -1735,25 +1735,25 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             }
                             "revision" = {
                               "description" = "Revision holds the revision this sync operation was performed to"
-                              "type" = "string"
+                              "type"        = "string"
                             }
                             "source" = {
                               "description" = "Source records the application source information of the sync, used for comparing auto-sync"
                               "properties" = {
                                 "chart" = {
                                   "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "directory" = {
                                   "description" = "Directory holds path/directory specific options"
                                   "properties" = {
                                     "exclude" = {
                                       "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "include" = {
                                       "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "jsonnet" = {
                                       "description" = "Jsonnet holds options specific to Jsonnet"
@@ -1816,7 +1816,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "recurse" = {
                                       "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                   }
                                   "type" = "object"
@@ -1831,11 +1831,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "name" = {
                                             "description" = "Name is the name of the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "path" = {
                                             "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "type" = "object"
@@ -1844,7 +1844,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "ignoreMissingValueFiles" = {
                                       "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "parameters" = {
                                       "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -1853,15 +1853,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "forceString" = {
                                             "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                            "type" = "boolean"
+                                            "type"        = "boolean"
                                           }
                                           "name" = {
                                             "description" = "Name is the name of the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "value" = {
                                             "description" = "Value is the value for the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "type" = "object"
@@ -1870,15 +1870,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "passCredentials" = {
                                       "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "releaseName" = {
                                       "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "skipCrds" = {
                                       "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "valueFiles" = {
                                       "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -1889,11 +1889,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "values" = {
                                       "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "version" = {
                                       "description" = "Version is the Helm version to use for templating (\"3\")"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "type" = "object"
@@ -1906,49 +1906,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "type" = "string"
                                       }
                                       "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                                      "type" = "object"
+                                      "type"        = "object"
                                     }
                                     "commonLabels" = {
                                       "additionalProperties" = {
                                         "type" = "string"
                                       }
                                       "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                                      "type" = "object"
+                                      "type"        = "object"
                                     }
                                     "forceCommonAnnotations" = {
                                       "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "forceCommonLabels" = {
                                       "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "images" = {
                                       "description" = "Images is a list of Kustomize image override specifications"
                                       "items" = {
                                         "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                       "type" = "array"
                                     }
                                     "namePrefix" = {
                                       "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "nameSuffix" = {
                                       "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "version" = {
                                       "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "type" = "object"
                                 }
                                 "path" = {
                                   "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "plugin" = {
                                   "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -1960,11 +1960,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "name" = {
                                             "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "value" = {
                                             "description" = "Value is the value of the variable"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "required" = [
@@ -1983,11 +1983,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "repoURL" = {
                                   "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "targetRevision" = {
                                   "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "required" = [
@@ -2011,8 +2011,8 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                     }
                     "reconciledAt" = {
                       "description" = "ReconciledAt indicates when the application state was reconciled using the latest git version"
-                      "format" = "date-time"
-                      "type" = "string"
+                      "format"      = "date-time"
+                      "type"        = "string"
                     }
                     "resources" = {
                       "description" = "Resources is a list of Kubernetes resources managed by this application"
@@ -2027,11 +2027,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                             "properties" = {
                               "message" = {
                                 "description" = "Message is a human-readable informational message describing the health status"
-                                "type" = "string"
+                                "type"        = "string"
                               }
                               "status" = {
                                 "description" = "Status holds the status code of the application or resource"
-                                "type" = "string"
+                                "type"        = "string"
                               }
                             }
                             "type" = "object"
@@ -2053,7 +2053,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                           }
                           "status" = {
                             "description" = "SyncStatusCode is a type which represents possible comparison results"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "version" = {
                             "type" = "string"
@@ -2065,7 +2065,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                     }
                     "sourceType" = {
                       "description" = "SourceType specifies the type of this application"
-                      "type" = "string"
+                      "type"        = "string"
                     }
                     "summary" = {
                       "description" = "Summary contains a list of URLs and container images used by this application"
@@ -2098,15 +2098,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "name" = {
                                   "description" = "Name is an alternate way of specifying the target cluster by its symbolic name"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "namespace" = {
                                   "description" = "Namespace specifies the target namespace for the application's resources. The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "server" = {
                                   "description" = "Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "type" = "object"
@@ -2116,18 +2116,18 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                               "properties" = {
                                 "chart" = {
                                   "description" = "Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "directory" = {
                                   "description" = "Directory holds path/directory specific options"
                                   "properties" = {
                                     "exclude" = {
                                       "description" = "Exclude contains a glob pattern to match paths against that should be explicitly excluded from being used during manifest generation"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "include" = {
                                       "description" = "Include contains a glob pattern to match paths against that should be explicitly included during manifest generation"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "jsonnet" = {
                                       "description" = "Jsonnet holds options specific to Jsonnet"
@@ -2190,7 +2190,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "recurse" = {
                                       "description" = "Recurse specifies whether to scan a directory recursively for manifests"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                   }
                                   "type" = "object"
@@ -2205,11 +2205,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "name" = {
                                             "description" = "Name is the name of the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "path" = {
                                             "description" = "Path is the path to the file containing the values for the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "type" = "object"
@@ -2218,7 +2218,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "ignoreMissingValueFiles" = {
                                       "description" = "IgnoreMissingValueFiles prevents helm template from failing when valueFiles do not exist locally by not appending them to helm template --values"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "parameters" = {
                                       "description" = "Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation"
@@ -2227,15 +2227,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "forceString" = {
                                             "description" = "ForceString determines whether to tell Helm to interpret booleans and numbers as strings"
-                                            "type" = "boolean"
+                                            "type"        = "boolean"
                                           }
                                           "name" = {
                                             "description" = "Name is the name of the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "value" = {
                                             "description" = "Value is the value for the Helm parameter"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "type" = "object"
@@ -2244,15 +2244,15 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "passCredentials" = {
                                       "description" = "PassCredentials pass credentials to all domains (Helm's --pass-credentials)"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "releaseName" = {
                                       "description" = "ReleaseName is the Helm release name to use. If omitted it will use the application name"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "skipCrds" = {
                                       "description" = "SkipCrds skips custom resource definition installation step (Helm's --skip-crds)"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "valueFiles" = {
                                       "description" = "ValuesFiles is a list of Helm value files to use when generating a template"
@@ -2263,11 +2263,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                     }
                                     "values" = {
                                       "description" = "Values specifies Helm values to be passed to helm template, typically defined as a block"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "version" = {
                                       "description" = "Version is the Helm version to use for templating (\"3\")"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "type" = "object"
@@ -2280,49 +2280,49 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "type" = "string"
                                       }
                                       "description" = "CommonAnnotations is a list of additional annotations to add to rendered manifests"
-                                      "type" = "object"
+                                      "type"        = "object"
                                     }
                                     "commonLabels" = {
                                       "additionalProperties" = {
                                         "type" = "string"
                                       }
                                       "description" = "CommonLabels is a list of additional labels to add to rendered manifests"
-                                      "type" = "object"
+                                      "type"        = "object"
                                     }
                                     "forceCommonAnnotations" = {
                                       "description" = "ForceCommonAnnotations specifies whether to force applying common annotations to resources for Kustomize apps"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "forceCommonLabels" = {
                                       "description" = "ForceCommonLabels specifies whether to force applying common labels to resources for Kustomize apps"
-                                      "type" = "boolean"
+                                      "type"        = "boolean"
                                     }
                                     "images" = {
                                       "description" = "Images is a list of Kustomize image override specifications"
                                       "items" = {
                                         "description" = "KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>"
-                                        "type" = "string"
+                                        "type"        = "string"
                                       }
                                       "type" = "array"
                                     }
                                     "namePrefix" = {
                                       "description" = "NamePrefix is a prefix appended to resources for Kustomize apps"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "nameSuffix" = {
                                       "description" = "NameSuffix is a suffix appended to resources for Kustomize apps"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                     "version" = {
                                       "description" = "Version controls which version of Kustomize to use for rendering manifests"
-                                      "type" = "string"
+                                      "type"        = "string"
                                     }
                                   }
                                   "type" = "object"
                                 }
                                 "path" = {
                                   "description" = "Path is a directory path within the Git repository, and is only valid for applications sourced from Git."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "plugin" = {
                                   "description" = "ConfigManagementPlugin holds config management plugin specific options"
@@ -2334,11 +2334,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                         "properties" = {
                                           "name" = {
                                             "description" = "Name is the name of the variable, usually expressed in uppercase"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                           "value" = {
                                             "description" = "Value is the value of the variable"
-                                            "type" = "string"
+                                            "type"        = "string"
                                           }
                                         }
                                         "required" = [
@@ -2357,11 +2357,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                                 }
                                 "repoURL" = {
                                   "description" = "RepoURL is the URL to the repository (Git or Helm) that contains the application manifests"
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                                 "targetRevision" = {
                                   "description" = "TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version."
-                                  "type" = "string"
+                                  "type"        = "string"
                                 }
                               }
                               "required" = [
@@ -2378,11 +2378,11 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
                         }
                         "revision" = {
                           "description" = "Revision contains information about the revision the comparison has been performed to"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                         "status" = {
                           "description" = "Status is the sync state of the comparison"
-                          "type" = "string"
+                          "type"        = "string"
                         }
                       }
                       "required" = [
@@ -2401,8 +2401,8 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
               "type" = "object"
             }
           }
-          "served" = true
-          "storage" = true
+          "served"       = true
+          "storage"      = true
           "subresources" = {}
         },
       ]
@@ -2413,7 +2413,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_i
 resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argoproj_io" {
   manifest = {
     "apiVersion" = "apiextensions.k8s.io/v1"
-    "kind" = "CustomResourceDefinition"
+    "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/name" = "applicationsets.argoproj.io"
@@ -2423,9 +2423,9 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
     "spec" = {
       "group" = "argoproj.io"
       "names" = {
-        "kind" = "ApplicationSet"
+        "kind"     = "ApplicationSet"
         "listKind" = "ApplicationSetList"
-        "plural" = "applicationsets"
+        "plural"   = "applicationsets"
         "shortNames" = [
           "appset",
           "appsets",
@@ -2498,7 +2498,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                               }
                               "requeueAfterSeconds" = {
                                 "format" = "int64"
-                                "type" = "integer"
+                                "type"   = "integer"
                               }
                               "template" = {
                                 "properties" = {
@@ -2611,7 +2611,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -2849,7 +2849,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -2859,7 +2859,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -3048,7 +3048,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -3286,7 +3286,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -3296,7 +3296,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -3372,7 +3372,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                               }
                               "requeueAfterSeconds" = {
                                 "format" = "int64"
-                                "type" = "integer"
+                                "type"   = "integer"
                               }
                               "revision" = {
                                 "type" = "string"
@@ -3488,7 +3488,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -3726,7 +3726,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -3736,7 +3736,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -3891,7 +3891,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -4129,7 +4129,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -4139,7 +4139,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -4224,7 +4224,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -4337,7 +4337,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -4575,7 +4575,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -4585,7 +4585,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -4774,7 +4774,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -5012,7 +5012,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -5022,7 +5022,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -5098,7 +5098,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "revision" = {
                                           "type" = "string"
@@ -5214,7 +5214,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -5452,7 +5452,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -5462,7 +5462,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -5617,7 +5617,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -5855,7 +5855,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -5865,7 +5865,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -6043,7 +6043,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -6156,7 +6156,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -6394,7 +6394,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -6404,7 +6404,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -6654,7 +6654,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -6767,7 +6767,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -7005,7 +7005,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -7015,7 +7015,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -7163,7 +7163,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -7401,7 +7401,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -7411,7 +7411,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -7496,7 +7496,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -7609,7 +7609,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -7847,7 +7847,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -7857,7 +7857,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -8046,7 +8046,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -8284,7 +8284,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -8294,7 +8294,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -8370,7 +8370,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "revision" = {
                                           "type" = "string"
@@ -8486,7 +8486,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -8724,7 +8724,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -8734,7 +8734,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -8889,7 +8889,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -9127,7 +9127,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -9137,7 +9137,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -9315,7 +9315,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -9428,7 +9428,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -9666,7 +9666,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -9676,7 +9676,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -9926,7 +9926,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "requeueAfterSeconds" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "template" = {
                                           "properties" = {
@@ -10039,7 +10039,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                 }
                                                 "revisionHistoryLimit" = {
                                                   "format" = "int64"
-                                                  "type" = "integer"
+                                                  "type"   = "integer"
                                                 }
                                                 "source" = {
                                                   "properties" = {
@@ -10277,7 +10277,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                             }
                                                             "factor" = {
                                                               "format" = "int64"
-                                                              "type" = "integer"
+                                                              "type"   = "integer"
                                                             }
                                                             "maxDuration" = {
                                                               "type" = "string"
@@ -10287,7 +10287,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                         }
                                                         "limit" = {
                                                           "format" = "int64"
-                                                          "type" = "integer"
+                                                          "type"   = "integer"
                                                         }
                                                       }
                                                       "type" = "object"
@@ -10441,7 +10441,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -10679,7 +10679,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -10689,7 +10689,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -10862,7 +10862,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                               }
                               "requeueAfterSeconds" = {
                                 "format" = "int64"
-                                "type" = "integer"
+                                "type"   = "integer"
                               }
                               "template" = {
                                 "properties" = {
@@ -10975,7 +10975,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -11213,7 +11213,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -11223,7 +11223,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -11473,7 +11473,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                               }
                               "requeueAfterSeconds" = {
                                 "format" = "int64"
-                                "type" = "integer"
+                                "type"   = "integer"
                               }
                               "template" = {
                                 "properties" = {
@@ -11586,7 +11586,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                       }
                                       "revisionHistoryLimit" = {
                                         "format" = "int64"
-                                        "type" = "integer"
+                                        "type"   = "integer"
                                       }
                                       "source" = {
                                         "properties" = {
@@ -11824,7 +11824,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                                   }
                                                   "factor" = {
                                                     "format" = "int64"
-                                                    "type" = "integer"
+                                                    "type"   = "integer"
                                                   }
                                                   "maxDuration" = {
                                                     "type" = "string"
@@ -11834,7 +11834,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                               }
                                               "limit" = {
                                                 "format" = "int64"
-                                                "type" = "integer"
+                                                "type"   = "integer"
                                               }
                                             }
                                             "type" = "object"
@@ -11990,7 +11990,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                             }
                             "revisionHistoryLimit" = {
                               "format" = "int64"
-                              "type" = "integer"
+                              "type"   = "integer"
                             }
                             "source" = {
                               "properties" = {
@@ -12228,7 +12228,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                         }
                                         "factor" = {
                                           "format" = "int64"
-                                          "type" = "integer"
+                                          "type"   = "integer"
                                         }
                                         "maxDuration" = {
                                           "type" = "string"
@@ -12238,7 +12238,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                                     }
                                     "limit" = {
                                       "format" = "int64"
-                                      "type" = "integer"
+                                      "type"   = "integer"
                                     }
                                   }
                                   "type" = "object"
@@ -12281,7 +12281,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
                         "properties" = {
                           "lastTransitionTime" = {
                             "format" = "date-time"
-                            "type" = "string"
+                            "type"   = "string"
                           }
                           "message" = {
                             "type" = "string"
@@ -12317,7 +12317,7 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
               "type" = "object"
             }
           }
-          "served" = true
+          "served"  = true
           "storage" = true
           "subresources" = {
             "status" = {}
@@ -12331,10 +12331,10 @@ resource "kubernetes_manifest" "customresourcedefinition_applicationsets_argopro
 resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io" {
   manifest = {
     "apiVersion" = "apiextensions.k8s.io/v1"
-    "kind" = "CustomResourceDefinition"
+    "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "appprojects.argoproj.io"
+        "app.kubernetes.io/name"    = "appprojects.argoproj.io"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "appprojects.argoproj.io"
@@ -12342,9 +12342,9 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
     "spec" = {
       "group" = "argoproj.io"
       "names" = {
-        "kind" = "AppProject"
+        "kind"     = "AppProject"
         "listKind" = "AppProjectList"
-        "plural" = "appprojects"
+        "plural"   = "appprojects"
         "shortNames" = [
           "appproj",
           "appprojs",
@@ -12361,11 +12361,11 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
               "properties" = {
                 "apiVersion" = {
                   "description" = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
-                  "type" = "string"
+                  "type"        = "string"
                 }
                 "kind" = {
                   "description" = "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
-                  "type" = "string"
+                  "type"        = "string"
                 }
                 "metadata" = {
                   "type" = "object"
@@ -12415,7 +12415,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                     }
                     "description" = {
                       "description" = "Description contains optional project description"
-                      "type" = "string"
+                      "type"        = "string"
                     }
                     "destinations" = {
                       "description" = "Destinations contains list of destinations available for deployment"
@@ -12424,15 +12424,15 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                         "properties" = {
                           "name" = {
                             "description" = "Name is an alternate way of specifying the target cluster by its symbolic name"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "namespace" = {
                             "description" = "Namespace specifies the target namespace for the application's resources. The namespace will only be set for namespace-scoped resources that have not set a value for .metadata.namespace"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "server" = {
                             "description" = "Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                         }
                         "type" = "object"
@@ -12503,7 +12503,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                         }
                         "warn" = {
                           "description" = "Warn indicates if warning condition should be created for apps which have orphaned resources"
-                          "type" = "boolean"
+                          "type"        = "boolean"
                         }
                       }
                       "type" = "object"
@@ -12515,7 +12515,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                         "properties" = {
                           "description" = {
                             "description" = "Description is a description of the role"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "groups" = {
                             "description" = "Groups are a list of OIDC group claims bound to this role"
@@ -12531,11 +12531,11 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                               "properties" = {
                                 "exp" = {
                                   "format" = "int64"
-                                  "type" = "integer"
+                                  "type"   = "integer"
                                 }
                                 "iat" = {
                                   "format" = "int64"
-                                  "type" = "integer"
+                                  "type"   = "integer"
                                 }
                                 "id" = {
                                   "type" = "string"
@@ -12550,7 +12550,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                           }
                           "name" = {
                             "description" = "Name is a name for this role"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "policies" = {
                             "description" = "Policies Stores a list of casbin formatted strings that define access policies for the role in the project"
@@ -12574,7 +12574,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                         "properties" = {
                           "keyID" = {
                             "description" = "The ID of the key in hexadecimal notation"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                         }
                         "required" = [
@@ -12612,15 +12612,15 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                           }
                           "duration" = {
                             "description" = "Duration is the amount of time the sync window will be open"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "kind" = {
                             "description" = "Kind defines if the window allows or blocks syncs"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "manualSync" = {
                             "description" = "ManualSync enables manual syncs when they would otherwise be blocked"
-                            "type" = "boolean"
+                            "type"        = "boolean"
                           }
                           "namespaces" = {
                             "description" = "Namespaces contains a list of namespaces that the window will apply to"
@@ -12631,11 +12631,11 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                           }
                           "schedule" = {
                             "description" = "Schedule is the time the window will begin, specified in cron format"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                           "timeZone" = {
                             "description" = "TimeZone of the sync that will be applied to the schedule"
-                            "type" = "string"
+                            "type"        = "string"
                           }
                         }
                         "type" = "object"
@@ -12658,11 +12658,11 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                               "properties" = {
                                 "exp" = {
                                   "format" = "int64"
-                                  "type" = "integer"
+                                  "type"   = "integer"
                                 }
                                 "iat" = {
                                   "format" = "int64"
-                                  "type" = "integer"
+                                  "type"   = "integer"
                                 }
                                 "id" = {
                                   "type" = "string"
@@ -12679,7 +12679,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
                         "type" = "object"
                       }
                       "description" = "JWTTokensByRole contains a list of JWT tokens issued for a given role"
-                      "type" = "object"
+                      "type"        = "object"
                     }
                   }
                   "type" = "object"
@@ -12692,7 +12692,7 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
               "type" = "object"
             }
           }
-          "served" = true
+          "served"  = true
           "storage" = true
         },
       ]
@@ -12703,12 +12703,12 @@ resource "kubernetes_manifest" "customresourcedefinition_appprojects_argoproj_io
 resource "kubernetes_manifest" "serviceaccount_argocd_application_controller" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
@@ -12718,12 +12718,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_application_controller" {
 resource "kubernetes_manifest" "serviceaccount_argocd_applicationset_controller" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "controller"
-        "app.kubernetes.io/name" = "argocd-applicationset-controller"
-        "app.kubernetes.io/part-of" = "argocd-applicationset"
+        "app.kubernetes.io/name"      = "argocd-applicationset-controller"
+        "app.kubernetes.io/part-of"   = "argocd-applicationset"
       }
       "name" = "argocd-applicationset-controller"
     }
@@ -12733,12 +12733,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_applicationset_controller"
 resource "kubernetes_manifest" "serviceaccount_argocd_dex_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "dex-server"
-        "app.kubernetes.io/name" = "argocd-dex-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-dex-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-dex-server"
     }
@@ -12748,7 +12748,7 @@ resource "kubernetes_manifest" "serviceaccount_argocd_dex_server" {
 resource "kubernetes_manifest" "serviceaccount_argocd_notifications_controller" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "name" = "argocd-notifications-controller"
     }
@@ -12758,12 +12758,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_notifications_controller" 
 resource "kubernetes_manifest" "serviceaccount_argocd_redis" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "redis"
-        "app.kubernetes.io/name" = "argocd-redis"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-redis"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-redis"
     }
@@ -12773,12 +12773,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_redis" {
 resource "kubernetes_manifest" "serviceaccount_argocd_repo_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "repo-server"
-        "app.kubernetes.io/name" = "argocd-repo-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-repo-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-repo-server"
     }
@@ -12788,12 +12788,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_repo_server" {
 resource "kubernetes_manifest" "serviceaccount_argocd_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ServiceAccount"
+    "kind"       = "ServiceAccount"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
@@ -12803,12 +12803,12 @@ resource "kubernetes_manifest" "serviceaccount_argocd_server" {
 resource "kubernetes_manifest" "role_argocd_application_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "Role"
+    "kind"       = "Role"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
@@ -12864,12 +12864,12 @@ resource "kubernetes_manifest" "role_argocd_application_controller" {
 resource "kubernetes_manifest" "role_argocd_applicationset_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "Role"
+    "kind"       = "Role"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "controller"
-        "app.kubernetes.io/name" = "argocd-applicationset-controller"
-        "app.kubernetes.io/part-of" = "argocd-applicationset"
+        "app.kubernetes.io/name"      = "argocd-applicationset-controller"
+        "app.kubernetes.io/part-of"   = "argocd-applicationset"
       }
       "name" = "argocd-applicationset-controller"
     }
@@ -12967,12 +12967,12 @@ resource "kubernetes_manifest" "role_argocd_applicationset_controller" {
 resource "kubernetes_manifest" "role_argocd_dex_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "Role"
+    "kind"       = "Role"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "dex-server"
-        "app.kubernetes.io/name" = "argocd-dex-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-dex-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-dex-server"
     }
@@ -12998,7 +12998,7 @@ resource "kubernetes_manifest" "role_argocd_dex_server" {
 resource "kubernetes_manifest" "role_argocd_notifications_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "Role"
+    "kind"       = "Role"
     "metadata" = {
       "name" = "argocd-notifications-controller"
     }
@@ -13067,12 +13067,12 @@ resource "kubernetes_manifest" "role_argocd_notifications_controller" {
 resource "kubernetes_manifest" "role_argocd_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "Role"
+    "kind"       = "Role"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
@@ -13132,12 +13132,12 @@ resource "kubernetes_manifest" "role_argocd_server" {
 resource "kubernetes_manifest" "clusterrole_argocd_application_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRole"
+    "kind"       = "ClusterRole"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
@@ -13168,12 +13168,12 @@ resource "kubernetes_manifest" "clusterrole_argocd_application_controller" {
 resource "kubernetes_manifest" "clusterrole_argocd_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRole"
+    "kind"       = "ClusterRole"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
@@ -13221,19 +13221,19 @@ resource "kubernetes_manifest" "clusterrole_argocd_server" {
 resource "kubernetes_manifest" "rolebinding_argocd_application_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-application-controller"
+      "kind"     = "Role"
+      "name"     = "argocd-application-controller"
     }
     "subjects" = [
       {
@@ -13247,19 +13247,19 @@ resource "kubernetes_manifest" "rolebinding_argocd_application_controller" {
 resource "kubernetes_manifest" "rolebinding_argocd_applicationset_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "controller"
-        "app.kubernetes.io/name" = "argocd-applicationset-controller"
-        "app.kubernetes.io/part-of" = "argocd-applicationset"
+        "app.kubernetes.io/name"      = "argocd-applicationset-controller"
+        "app.kubernetes.io/part-of"   = "argocd-applicationset"
       }
       "name" = "argocd-applicationset-controller"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-applicationset-controller"
+      "kind"     = "Role"
+      "name"     = "argocd-applicationset-controller"
     }
     "subjects" = [
       {
@@ -13273,19 +13273,19 @@ resource "kubernetes_manifest" "rolebinding_argocd_applicationset_controller" {
 resource "kubernetes_manifest" "rolebinding_argocd_dex_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "dex-server"
-        "app.kubernetes.io/name" = "argocd-dex-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-dex-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-dex-server"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-dex-server"
+      "kind"     = "Role"
+      "name"     = "argocd-dex-server"
     }
     "subjects" = [
       {
@@ -13299,14 +13299,14 @@ resource "kubernetes_manifest" "rolebinding_argocd_dex_server" {
 resource "kubernetes_manifest" "rolebinding_argocd_notifications_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "name" = "argocd-notifications-controller"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-notifications-controller"
+      "kind"     = "Role"
+      "name"     = "argocd-notifications-controller"
     }
     "subjects" = [
       {
@@ -13320,19 +13320,19 @@ resource "kubernetes_manifest" "rolebinding_argocd_notifications_controller" {
 resource "kubernetes_manifest" "rolebinding_argocd_redis" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "redis"
-        "app.kubernetes.io/name" = "argocd-redis"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-redis"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-redis"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-redis"
+      "kind"     = "Role"
+      "name"     = "argocd-redis"
     }
     "subjects" = [
       {
@@ -13346,19 +13346,19 @@ resource "kubernetes_manifest" "rolebinding_argocd_redis" {
 resource "kubernetes_manifest" "rolebinding_argocd_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "RoleBinding"
+    "kind"       = "RoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "Role"
-      "name" = "argocd-server"
+      "kind"     = "Role"
+      "name"     = "argocd-server"
     }
     "subjects" = [
       {
@@ -13372,24 +13372,24 @@ resource "kubernetes_manifest" "rolebinding_argocd_server" {
 resource "kubernetes_manifest" "clusterrolebinding_argocd_application_controller" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRoleBinding"
+    "kind"       = "ClusterRoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "ClusterRole"
-      "name" = "argocd-application-controller"
+      "kind"     = "ClusterRole"
+      "name"     = "argocd-application-controller"
     }
     "subjects" = [
       {
-        "kind" = "ServiceAccount"
-        "name" = "argocd-application-controller"
+        "kind"      = "ServiceAccount"
+        "name"      = "argocd-application-controller"
         "namespace" = "argocd"
       },
     ]
@@ -13399,24 +13399,24 @@ resource "kubernetes_manifest" "clusterrolebinding_argocd_application_controller
 resource "kubernetes_manifest" "clusterrolebinding_argocd_server" {
   manifest = {
     "apiVersion" = "rbac.authorization.k8s.io/v1"
-    "kind" = "ClusterRoleBinding"
+    "kind"       = "ClusterRoleBinding"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
     "roleRef" = {
       "apiGroup" = "rbac.authorization.k8s.io"
-      "kind" = "ClusterRole"
-      "name" = "argocd-server"
+      "kind"     = "ClusterRole"
+      "name"     = "argocd-server"
     }
     "subjects" = [
       {
-        "kind" = "ServiceAccount"
-        "name" = "argocd-server"
+        "kind"      = "ServiceAccount"
+        "name"      = "argocd-server"
         "namespace" = "argocd"
       },
     ]
@@ -13426,10 +13426,10 @@ resource "kubernetes_manifest" "clusterrolebinding_argocd_server" {
 resource "kubernetes_manifest" "configmap_argocd_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-cm"
+        "app.kubernetes.io/name"    = "argocd-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-cm"
@@ -13440,10 +13440,10 @@ resource "kubernetes_manifest" "configmap_argocd_cm" {
 resource "kubernetes_manifest" "configmap_argocd_cmd_params_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-cmd-params-cm"
+        "app.kubernetes.io/name"    = "argocd-cmd-params-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-cmd-params-cm"
@@ -13454,10 +13454,10 @@ resource "kubernetes_manifest" "configmap_argocd_cmd_params_cm" {
 resource "kubernetes_manifest" "configmap_argocd_gpg_keys_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-gpg-keys-cm"
+        "app.kubernetes.io/name"    = "argocd-gpg-keys-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-gpg-keys-cm"
@@ -13468,7 +13468,7 @@ resource "kubernetes_manifest" "configmap_argocd_gpg_keys_cm" {
 resource "kubernetes_manifest" "configmap_argocd_notifications_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "name" = "argocd-notifications-cm"
     }
@@ -13478,10 +13478,10 @@ resource "kubernetes_manifest" "configmap_argocd_notifications_cm" {
 resource "kubernetes_manifest" "configmap_argocd_rbac_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-rbac-cm"
+        "app.kubernetes.io/name"    = "argocd-rbac-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-rbac-cm"
@@ -13508,7 +13508,7 @@ resource "kubernetes_manifest" "configmap_argocd_ssh_known_hosts_cm" {
     "kind" = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-ssh-known-hosts-cm"
+        "app.kubernetes.io/name"    = "argocd-ssh-known-hosts-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-ssh-known-hosts-cm"
@@ -13519,10 +13519,10 @@ resource "kubernetes_manifest" "configmap_argocd_ssh_known_hosts_cm" {
 resource "kubernetes_manifest" "configmap_argocd_tls_certs_cm" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "ConfigMap"
+    "kind"       = "ConfigMap"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-tls-certs-cm"
+        "app.kubernetes.io/name"    = "argocd-tls-certs-cm"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-tls-certs-cm"
@@ -13533,7 +13533,7 @@ resource "kubernetes_manifest" "configmap_argocd_tls_certs_cm" {
 resource "kubernetes_manifest" "secret_argocd_notifications_secret" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Secret"
+    "kind"       = "Secret"
     "metadata" = {
       "name" = "argocd-notifications-secret"
     }
@@ -13544,10 +13544,10 @@ resource "kubernetes_manifest" "secret_argocd_notifications_secret" {
 resource "kubernetes_manifest" "secret_argocd_secret" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Secret"
+    "kind"       = "Secret"
     "metadata" = {
       "labels" = {
-        "app.kubernetes.io/name" = "argocd-secret"
+        "app.kubernetes.io/name"    = "argocd-secret"
         "app.kubernetes.io/part-of" = "argocd"
       }
       "name" = "argocd-secret"
@@ -13559,27 +13559,27 @@ resource "kubernetes_manifest" "secret_argocd_secret" {
 resource "kubernetes_manifest" "service_argocd_applicationset_controller" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "controller"
-        "app.kubernetes.io/name" = "argocd-applicationset-controller"
-        "app.kubernetes.io/part-of" = "argocd-applicationset"
+        "app.kubernetes.io/name"      = "argocd-applicationset-controller"
+        "app.kubernetes.io/part-of"   = "argocd-applicationset"
       }
       "name" = "argocd-applicationset-controller"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "webhook"
-          "port" = 7000
-          "protocol" = "TCP"
+          "name"       = "webhook"
+          "port"       = 7000
+          "protocol"   = "TCP"
           "targetPort" = "webhook"
         },
         {
-          "name" = "metrics"
-          "port" = 8080
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 8080
+          "protocol"   = "TCP"
           "targetPort" = "metrics"
         },
       ]
@@ -13593,33 +13593,33 @@ resource "kubernetes_manifest" "service_argocd_applicationset_controller" {
 resource "kubernetes_manifest" "service_argocd_dex_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "dex-server"
-        "app.kubernetes.io/name" = "argocd-dex-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-dex-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-dex-server"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "http"
-          "port" = 5556
-          "protocol" = "TCP"
+          "name"       = "http"
+          "port"       = 5556
+          "protocol"   = "TCP"
           "targetPort" = 5556
         },
         {
-          "name" = "grpc"
-          "port" = 5557
-          "protocol" = "TCP"
+          "name"       = "grpc"
+          "port"       = 5557
+          "protocol"   = "TCP"
           "targetPort" = 5557
         },
         {
-          "name" = "metrics"
-          "port" = 5558
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 5558
+          "protocol"   = "TCP"
           "targetPort" = 5558
         },
       ]
@@ -13633,21 +13633,21 @@ resource "kubernetes_manifest" "service_argocd_dex_server" {
 resource "kubernetes_manifest" "service_argocd_metrics" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "metrics"
-        "app.kubernetes.io/name" = "argocd-metrics"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-metrics"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-metrics"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "metrics"
-          "port" = 8082
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 8082
+          "protocol"   = "TCP"
           "targetPort" = 8082
         },
       ]
@@ -13661,7 +13661,7 @@ resource "kubernetes_manifest" "service_argocd_metrics" {
 resource "kubernetes_manifest" "service_argocd_notifications_controller_metrics" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/name" = "argocd-notifications-controller-metrics"
@@ -13671,9 +13671,9 @@ resource "kubernetes_manifest" "service_argocd_notifications_controller_metrics"
     "spec" = {
       "ports" = [
         {
-          "name" = "metrics"
-          "port" = 9001
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 9001
+          "protocol"   = "TCP"
           "targetPort" = 9001
         },
       ]
@@ -13687,20 +13687,20 @@ resource "kubernetes_manifest" "service_argocd_notifications_controller_metrics"
 resource "kubernetes_manifest" "service_argocd_redis" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "redis"
-        "app.kubernetes.io/name" = "argocd-redis"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-redis"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-redis"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "tcp-redis"
-          "port" = 6379
+          "name"       = "tcp-redis"
+          "port"       = 6379
           "targetPort" = 6379
         },
       ]
@@ -13714,27 +13714,27 @@ resource "kubernetes_manifest" "service_argocd_redis" {
 resource "kubernetes_manifest" "service_argocd_repo_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "repo-server"
-        "app.kubernetes.io/name" = "argocd-repo-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-repo-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-repo-server"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "server"
-          "port" = 8081
-          "protocol" = "TCP"
+          "name"       = "server"
+          "port"       = 8081
+          "protocol"   = "TCP"
           "targetPort" = 8081
         },
         {
-          "name" = "metrics"
-          "port" = 8084
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 8084
+          "protocol"   = "TCP"
           "targetPort" = 8084
         },
       ]
@@ -13748,27 +13748,27 @@ resource "kubernetes_manifest" "service_argocd_repo_server" {
 resource "kubernetes_manifest" "service_argocd_server" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "http"
-          "port" = 80
-          "protocol" = "TCP"
+          "name"       = "http"
+          "port"       = 80
+          "protocol"   = "TCP"
           "targetPort" = 8080
         },
         {
-          "name" = "https"
-          "port" = 443
-          "protocol" = "TCP"
+          "name"       = "https"
+          "port"       = 443
+          "protocol"   = "TCP"
           "targetPort" = 8080
         },
       ]
@@ -13782,21 +13782,21 @@ resource "kubernetes_manifest" "service_argocd_server" {
 resource "kubernetes_manifest" "service_argocd_server_metrics" {
   manifest = {
     "apiVersion" = "v1"
-    "kind" = "Service"
+    "kind"       = "Service"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server-metrics"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server-metrics"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server-metrics"
     }
     "spec" = {
       "ports" = [
         {
-          "name" = "metrics"
-          "port" = 8083
-          "protocol" = "TCP"
+          "name"       = "metrics"
+          "port"       = 8083
+          "protocol"   = "TCP"
           "targetPort" = 8083
         },
       ]
@@ -13810,12 +13810,12 @@ resource "kubernetes_manifest" "service_argocd_server_metrics" {
 resource "kubernetes_manifest" "deployment_argocd_applicationset_controller" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "controller"
-        "app.kubernetes.io/name" = "argocd-applicationset-controller"
-        "app.kubernetes.io/part-of" = "argocd-applicationset"
+        "app.kubernetes.io/name"      = "argocd-applicationset-controller"
+        "app.kubernetes.io/part-of"   = "argocd-applicationset"
       }
       "name" = "argocd-applicationset-controller"
     }
@@ -13848,17 +13848,17 @@ resource "kubernetes_manifest" "deployment_argocd_applicationset_controller" {
                   }
                 },
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
-              "name" = "argocd-applicationset-controller"
+              "name"            = "argocd-applicationset-controller"
               "ports" = [
                 {
                   "containerPort" = 7000
-                  "name" = "webhook"
+                  "name"          = "webhook"
                 },
                 {
                   "containerPort" = 8080
-                  "name" = "metrics"
+                  "name"          = "metrics"
                 },
               ]
               "securityContext" = {
@@ -13869,28 +13869,28 @@ resource "kubernetes_manifest" "deployment_argocd_applicationset_controller" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/app/config/ssh"
-                  "name" = "ssh-known-hosts"
+                  "name"      = "ssh-known-hosts"
                 },
                 {
                   "mountPath" = "/app/config/tls"
-                  "name" = "tls-certs"
+                  "name"      = "tls-certs"
                 },
                 {
                   "mountPath" = "/app/config/gpg/source"
-                  "name" = "gpg-keys"
+                  "name"      = "gpg-keys"
                 },
                 {
                   "mountPath" = "/app/config/gpg/keys"
-                  "name" = "gpg-keyring"
+                  "name"      = "gpg-keyring"
                 },
                 {
                   "mountPath" = "/tmp"
-                  "name" = "tmp"
+                  "name"      = "tmp"
                 },
               ]
             },
@@ -13917,11 +13917,11 @@ resource "kubernetes_manifest" "deployment_argocd_applicationset_controller" {
             },
             {
               "emptyDir" = {}
-              "name" = "gpg-keyring"
+              "name"     = "gpg-keyring"
             },
             {
               "emptyDir" = {}
-              "name" = "tmp"
+              "name"     = "tmp"
             },
           ]
         }
@@ -13933,12 +13933,12 @@ resource "kubernetes_manifest" "deployment_argocd_applicationset_controller" {
 resource "kubernetes_manifest" "deployment_argocd_dex_server" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "dex-server"
-        "app.kubernetes.io/name" = "argocd-dex-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-dex-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-dex-server"
     }
@@ -13978,9 +13978,9 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
                 "/shared/argocd-dex",
                 "rundex",
               ]
-              "image" = "ghcr.io/dexidp/dex:v2.30.2"
+              "image"           = "ghcr.io/dexidp/dex:v2.30.2"
               "imagePullPolicy" = "Always"
-              "name" = "dex"
+              "name"            = "dex"
               "ports" = [
                 {
                   "containerPort" = 5556
@@ -14000,16 +14000,16 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/shared"
-                  "name" = "static-files"
+                  "name"      = "static-files"
                 },
                 {
                   "mountPath" = "/tmp"
-                  "name" = "dexconfig"
+                  "name"      = "dexconfig"
                 },
               ]
             },
@@ -14022,9 +14022,9 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
                 "/usr/local/bin/argocd",
                 "/shared/argocd-dex",
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
-              "name" = "copyutil"
+              "name"            = "copyutil"
               "securityContext" = {
                 "allowPrivilegeEscalation" = false
                 "capabilities" = {
@@ -14033,16 +14033,16 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/shared"
-                  "name" = "static-files"
+                  "name"      = "static-files"
                 },
                 {
                   "mountPath" = "/tmp"
-                  "name" = "dexconfig"
+                  "name"      = "dexconfig"
                 },
               ]
             },
@@ -14051,11 +14051,11 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
           "volumes" = [
             {
               "emptyDir" = {}
-              "name" = "static-files"
+              "name"     = "static-files"
             },
             {
               "emptyDir" = {}
-              "name" = "dexconfig"
+              "name"     = "dexconfig"
             },
           ]
         }
@@ -14067,7 +14067,7 @@ resource "kubernetes_manifest" "deployment_argocd_dex_server" {
 resource "kubernetes_manifest" "deployment_argocd_notifications_controller" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "name" = "argocd-notifications-controller"
     }
@@ -14092,7 +14092,7 @@ resource "kubernetes_manifest" "deployment_argocd_notifications_controller" {
               "command" = [
                 "argocd-notifications",
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
               "livenessProbe" = {
                 "tcpSocket" = {
@@ -14112,11 +14112,11 @@ resource "kubernetes_manifest" "deployment_argocd_notifications_controller" {
               "volumeMounts" = [
                 {
                   "mountPath" = "/app/config/tls"
-                  "name" = "tls-certs"
+                  "name"      = "tls-certs"
                 },
                 {
                   "mountPath" = "/app/config/reposerver/tls"
-                  "name" = "argocd-repo-server-tls"
+                  "name"      = "argocd-repo-server-tls"
                 },
               ]
               "workingDir" = "/app"
@@ -14138,19 +14138,19 @@ resource "kubernetes_manifest" "deployment_argocd_notifications_controller" {
               "secret" = {
                 "items" = [
                   {
-                    "key" = "tls.crt"
+                    "key"  = "tls.crt"
                     "path" = "tls.crt"
                   },
                   {
-                    "key" = "tls.key"
+                    "key"  = "tls.key"
                     "path" = "tls.key"
                   },
                   {
-                    "key" = "ca.crt"
+                    "key"  = "ca.crt"
                     "path" = "ca.crt"
                   },
                 ]
-                "optional" = true
+                "optional"   = true
                 "secretName" = "argocd-repo-server-tls"
               }
             },
@@ -14164,12 +14164,12 @@ resource "kubernetes_manifest" "deployment_argocd_notifications_controller" {
 resource "kubernetes_manifest" "deployment_argocd_redis" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "redis"
-        "app.kubernetes.io/name" = "argocd-redis"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-redis"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-redis"
     }
@@ -14222,9 +14222,9 @@ resource "kubernetes_manifest" "deployment_argocd_redis" {
                 "--appendonly",
                 "no",
               ]
-              "image" = "redis:7.0.0-alpine"
+              "image"           = "redis:7.0.0-alpine"
               "imagePullPolicy" = "Always"
-              "name" = "redis"
+              "name"            = "redis"
               "ports" = [
                 {
                   "containerPort" = 6379
@@ -14242,7 +14242,7 @@ resource "kubernetes_manifest" "deployment_argocd_redis" {
           ]
           "securityContext" = {
             "runAsNonRoot" = true
-            "runAsUser" = 999
+            "runAsUser"    = 999
           }
           "serviceAccountName" = "argocd-redis"
         }
@@ -14254,12 +14254,12 @@ resource "kubernetes_manifest" "deployment_argocd_redis" {
 resource "kubernetes_manifest" "deployment_argocd_repo_server" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "repo-server"
-        "app.kubernetes.io/name" = "argocd-repo-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-repo-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-repo-server"
     }
@@ -14317,8 +14317,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_RECONCILIATION_TIMEOUT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "timeout.reconciliation"
-                      "name" = "argocd-cm"
+                      "key"      = "timeout.reconciliation"
+                      "name"     = "argocd-cm"
                       "optional" = true
                     }
                   }
@@ -14327,8 +14327,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_LOGFORMAT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.log.format"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.log.format"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14337,8 +14337,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_LOGLEVEL"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.log.level"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.log.level"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14347,8 +14347,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_PARALLELISM_LIMIT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.parallelism.limit"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.parallelism.limit"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14357,8 +14357,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_DISABLE_TLS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.disable.tls"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.disable.tls"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14367,8 +14367,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_TLS_MIN_VERSION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.tls.minversion"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.tls.minversion"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14377,8 +14377,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_TLS_MAX_VERSION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.tls.maxversion"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.tls.maxversion"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14387,8 +14387,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_TLS_CIPHERS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.tls.ciphers"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.tls.ciphers"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14397,8 +14397,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.repo.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.repo.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14407,8 +14407,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "REDIS_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14417,8 +14417,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "REDISDB"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.db"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.db"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14427,8 +14427,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_DEFAULT_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.default.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.default.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14437,8 +14437,8 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_OTLP_ADDRESS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "otlp.address"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "otlp.address"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14447,26 +14447,26 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "name" = "ARGOCD_REPO_SERVER_MAX_COMBINED_DIRECTORY_MANIFESTS_SIZE"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "reposerver.max.combined.directory.manifests.size"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "reposerver.max.combined.directory.manifests.size"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
                 },
                 {
-                  "name" = "HELM_CACHE_HOME"
+                  "name"  = "HELM_CACHE_HOME"
                   "value" = "/helm-working-dir"
                 },
                 {
-                  "name" = "HELM_CONFIG_HOME"
+                  "name"  = "HELM_CONFIG_HOME"
                   "value" = "/helm-working-dir"
                 },
                 {
-                  "name" = "HELM_DATA_HOME"
+                  "name"  = "HELM_DATA_HOME"
                   "value" = "/helm-working-dir"
                 },
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
               "livenessProbe" = {
                 "failureThreshold" = 3
@@ -14475,7 +14475,7 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "port" = 8084
                 }
                 "initialDelaySeconds" = 30
-                "periodSeconds" = 5
+                "periodSeconds"       = 5
               }
               "name" = "argocd-repo-server"
               "ports" = [
@@ -14492,7 +14492,7 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   "port" = 8084
                 }
                 "initialDelaySeconds" = 5
-                "periodSeconds" = 10
+                "periodSeconds"       = 10
               }
               "securityContext" = {
                 "allowPrivilegeEscalation" = false
@@ -14502,40 +14502,40 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/app/config/ssh"
-                  "name" = "ssh-known-hosts"
+                  "name"      = "ssh-known-hosts"
                 },
                 {
                   "mountPath" = "/app/config/tls"
-                  "name" = "tls-certs"
+                  "name"      = "tls-certs"
                 },
                 {
                   "mountPath" = "/app/config/gpg/source"
-                  "name" = "gpg-keys"
+                  "name"      = "gpg-keys"
                 },
                 {
                   "mountPath" = "/app/config/gpg/keys"
-                  "name" = "gpg-keyring"
+                  "name"      = "gpg-keyring"
                 },
                 {
                   "mountPath" = "/app/config/reposerver/tls"
-                  "name" = "argocd-repo-server-tls"
+                  "name"      = "argocd-repo-server-tls"
                 },
                 {
                   "mountPath" = "/tmp"
-                  "name" = "tmp"
+                  "name"      = "tmp"
                 },
                 {
                   "mountPath" = "/helm-working-dir"
-                  "name" = "helm-working-dir"
+                  "name"      = "helm-working-dir"
                 },
                 {
                   "mountPath" = "/home/argocd/cmp-server/plugins"
-                  "name" = "plugins"
+                  "name"      = "plugins"
                 },
               ]
             },
@@ -14549,7 +14549,7 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                 "/var/run/argocd/argocd-cmp-server",
               ]
               "image" = "quay.io/argoproj/argocd:v2.4.3"
-              "name" = "copyutil"
+              "name"  = "copyutil"
               "securityContext" = {
                 "allowPrivilegeEscalation" = false
                 "capabilities" = {
@@ -14558,12 +14558,12 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/var/run/argocd"
-                  "name" = "var-files"
+                  "name"      = "var-files"
                 },
               ]
             },
@@ -14590,44 +14590,44 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
             },
             {
               "emptyDir" = {}
-              "name" = "gpg-keyring"
+              "name"     = "gpg-keyring"
             },
             {
               "emptyDir" = {}
-              "name" = "tmp"
+              "name"     = "tmp"
             },
             {
               "emptyDir" = {}
-              "name" = "helm-working-dir"
+              "name"     = "helm-working-dir"
             },
             {
               "name" = "argocd-repo-server-tls"
               "secret" = {
                 "items" = [
                   {
-                    "key" = "tls.crt"
+                    "key"  = "tls.crt"
                     "path" = "tls.crt"
                   },
                   {
-                    "key" = "tls.key"
+                    "key"  = "tls.key"
                     "path" = "tls.key"
                   },
                   {
-                    "key" = "ca.crt"
+                    "key"  = "ca.crt"
                     "path" = "ca.crt"
                   },
                 ]
-                "optional" = true
+                "optional"   = true
                 "secretName" = "argocd-repo-server-tls"
               }
             },
             {
               "emptyDir" = {}
-              "name" = "var-files"
+              "name"     = "var-files"
             },
             {
               "emptyDir" = {}
-              "name" = "plugins"
+              "name"     = "plugins"
             },
           ]
         }
@@ -14639,12 +14639,12 @@ resource "kubernetes_manifest" "deployment_argocd_repo_server" {
 resource "kubernetes_manifest" "deployment_argocd_server" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "Deployment"
+    "kind"       = "Deployment"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "server"
-        "app.kubernetes.io/name" = "argocd-server"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-server"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-server"
     }
@@ -14701,8 +14701,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_INSECURE"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.insecure"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.insecure"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14711,8 +14711,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_BASEHREF"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.basehref"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.basehref"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14721,8 +14721,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_ROOTPATH"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.rootpath"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.rootpath"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14731,8 +14731,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_LOGFORMAT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.log.format"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.log.format"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14741,8 +14741,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_REPO_SERVER_LOGLEVEL"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.log.level"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.log.level"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14751,8 +14751,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_REPO_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "repo.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "repo.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14761,8 +14761,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_DEX_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.dex.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.dex.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14771,8 +14771,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_DISABLE_AUTH"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.disable.auth"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.disable.auth"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14781,8 +14781,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_ENABLE_GZIP"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.enable.gzip"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.enable.gzip"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14791,8 +14791,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_REPO_SERVER_TIMEOUT_SECONDS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.repo.server.timeout.seconds"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.repo.server.timeout.seconds"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14801,8 +14801,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_X_FRAME_OPTIONS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.x.frame.options"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.x.frame.options"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14811,8 +14811,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_CONTENT_SECURITY_POLICY"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.content.security.policy"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.content.security.policy"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14821,8 +14821,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_REPO_SERVER_PLAINTEXT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.repo.server.plaintext"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.repo.server.plaintext"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14831,8 +14831,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_REPO_SERVER_STRICT_TLS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.repo.server.strict.tls"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.repo.server.strict.tls"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14841,8 +14841,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_TLS_MIN_VERSION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.tls.minversion"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.tls.minversion"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14851,8 +14851,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_TLS_MAX_VERSION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.tls.maxversion"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.tls.maxversion"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14861,8 +14861,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_TLS_CIPHERS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.tls.ciphers"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.tls.ciphers"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14871,8 +14871,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_CONNECTION_STATUS_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.connection.status.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.connection.status.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14881,8 +14881,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_OIDC_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.oidc.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.oidc.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14891,8 +14891,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_LOGIN_ATTEMPTS_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.login.attempts.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.login.attempts.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14901,8 +14901,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_STATIC_ASSETS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.staticassets"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.staticassets"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14911,8 +14911,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_APP_STATE_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.app.state.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.app.state.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14921,8 +14921,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "REDIS_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14931,8 +14931,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "REDISDB"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.db"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.db"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14941,8 +14941,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_DEFAULT_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.default.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.default.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14951,8 +14951,8 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_MAX_COOKIE_NUMBER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "server.http.cookie.maxnumber"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "server.http.cookie.maxnumber"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -14961,14 +14961,14 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "name" = "ARGOCD_SERVER_OTLP_ADDRESS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "otlp.address"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "otlp.address"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
                 },
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
               "livenessProbe" = {
                 "httpGet" = {
@@ -14976,7 +14976,7 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "port" = 8080
                 }
                 "initialDelaySeconds" = 3
-                "periodSeconds" = 30
+                "periodSeconds"       = 30
               }
               "name" = "argocd-server"
               "ports" = [
@@ -14993,7 +14993,7 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   "port" = 8080
                 }
                 "initialDelaySeconds" = 3
-                "periodSeconds" = 30
+                "periodSeconds"       = 30
               }
               "securityContext" = {
                 "allowPrivilegeEscalation" = false
@@ -15003,28 +15003,28 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/app/config/ssh"
-                  "name" = "ssh-known-hosts"
+                  "name"      = "ssh-known-hosts"
                 },
                 {
                   "mountPath" = "/app/config/tls"
-                  "name" = "tls-certs"
+                  "name"      = "tls-certs"
                 },
                 {
                   "mountPath" = "/app/config/server/tls"
-                  "name" = "argocd-repo-server-tls"
+                  "name"      = "argocd-repo-server-tls"
                 },
                 {
                   "mountPath" = "/home/argocd"
-                  "name" = "plugins-home"
+                  "name"      = "plugins-home"
                 },
                 {
                   "mountPath" = "/tmp"
-                  "name" = "tmp"
+                  "name"      = "tmp"
                 },
               ]
             },
@@ -15033,11 +15033,11 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
           "volumes" = [
             {
               "emptyDir" = {}
-              "name" = "plugins-home"
+              "name"     = "plugins-home"
             },
             {
               "emptyDir" = {}
-              "name" = "tmp"
+              "name"     = "tmp"
             },
             {
               "configMap" = {
@@ -15056,19 +15056,19 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
               "secret" = {
                 "items" = [
                   {
-                    "key" = "tls.crt"
+                    "key"  = "tls.crt"
                     "path" = "tls.crt"
                   },
                   {
-                    "key" = "tls.key"
+                    "key"  = "tls.key"
                     "path" = "tls.key"
                   },
                   {
-                    "key" = "ca.crt"
+                    "key"  = "ca.crt"
                     "path" = "ca.crt"
                   },
                 ]
-                "optional" = true
+                "optional"   = true
                 "secretName" = "argocd-repo-server-tls"
               }
             },
@@ -15082,12 +15082,12 @@ resource "kubernetes_manifest" "deployment_argocd_server" {
 resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
   manifest = {
     "apiVersion" = "apps/v1"
-    "kind" = "StatefulSet"
+    "kind"       = "StatefulSet"
     "metadata" = {
       "labels" = {
         "app.kubernetes.io/component" = "application-controller"
-        "app.kubernetes.io/name" = "argocd-application-controller"
-        "app.kubernetes.io/part-of" = "argocd"
+        "app.kubernetes.io/name"      = "argocd-application-controller"
+        "app.kubernetes.io/part-of"   = "argocd"
       }
       "name" = "argocd-application-controller"
     }
@@ -15141,15 +15141,15 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
               ]
               "env" = [
                 {
-                  "name" = "ARGOCD_CONTROLLER_REPLICAS"
+                  "name"  = "ARGOCD_CONTROLLER_REPLICAS"
                   "value" = "1"
                 },
                 {
                   "name" = "ARGOCD_RECONCILIATION_TIMEOUT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "timeout.reconciliation"
-                      "name" = "argocd-cm"
+                      "key"      = "timeout.reconciliation"
+                      "name"     = "argocd-cm"
                       "optional" = true
                     }
                   }
@@ -15158,8 +15158,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_HARD_RECONCILIATION_TIMEOUT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "timeout.hard.reconciliation"
-                      "name" = "argocd-cm"
+                      "key"      = "timeout.hard.reconciliation"
+                      "name"     = "argocd-cm"
                       "optional" = true
                     }
                   }
@@ -15168,8 +15168,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "repo.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "repo.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15178,8 +15178,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER_TIMEOUT_SECONDS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.repo.server.timeout.seconds"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.repo.server.timeout.seconds"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15188,8 +15188,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_STATUS_PROCESSORS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.status.processors"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.status.processors"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15198,8 +15198,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_OPERATION_PROCESSORS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.operation.processors"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.operation.processors"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15208,8 +15208,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_LOGFORMAT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.log.format"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.log.format"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15218,8 +15218,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_LOGLEVEL"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.log.level"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.log.level"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15228,8 +15228,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_METRICS_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.metrics.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.metrics.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15238,8 +15238,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_SELF_HEAL_TIMEOUT_SECONDS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.self.heal.timeout.seconds"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.self.heal.timeout.seconds"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15248,8 +15248,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER_PLAINTEXT"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.repo.server.plaintext"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.repo.server.plaintext"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15258,8 +15258,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_REPO_SERVER_STRICT_TLS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.repo.server.strict.tls"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.repo.server.strict.tls"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15268,8 +15268,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APP_STATE_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.app.state.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.app.state.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15278,8 +15278,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "REDIS_SERVER"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.server"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.server"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15288,8 +15288,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "REDISDB"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "redis.db"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "redis.db"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15298,8 +15298,8 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_DEFAULT_CACHE_EXPIRATION"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "controller.default.cache.expiration"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "controller.default.cache.expiration"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
@@ -15308,14 +15308,14 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "name" = "ARGOCD_APPLICATION_CONTROLLER_OTLP_ADDRESS"
                   "valueFrom" = {
                     "configMapKeyRef" = {
-                      "key" = "otlp.address"
-                      "name" = "argocd-cmd-params-cm"
+                      "key"      = "otlp.address"
+                      "name"     = "argocd-cmd-params-cm"
                       "optional" = true
                     }
                   }
                 },
               ]
-              "image" = "quay.io/argoproj/argocd:v2.4.3"
+              "image"           = "quay.io/argoproj/argocd:v2.4.3"
               "imagePullPolicy" = "Always"
               "livenessProbe" = {
                 "httpGet" = {
@@ -15323,7 +15323,7 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "port" = 8082
                 }
                 "initialDelaySeconds" = 5
-                "periodSeconds" = 10
+                "periodSeconds"       = 10
               }
               "name" = "argocd-application-controller"
               "ports" = [
@@ -15337,7 +15337,7 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   "port" = 8082
                 }
                 "initialDelaySeconds" = 5
-                "periodSeconds" = 10
+                "periodSeconds"       = 10
               }
               "securityContext" = {
                 "allowPrivilegeEscalation" = false
@@ -15347,16 +15347,16 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
                   ]
                 }
                 "readOnlyRootFilesystem" = true
-                "runAsNonRoot" = true
+                "runAsNonRoot"           = true
               }
               "volumeMounts" = [
                 {
                   "mountPath" = "/app/config/controller/tls"
-                  "name" = "argocd-repo-server-tls"
+                  "name"      = "argocd-repo-server-tls"
                 },
                 {
                   "mountPath" = "/home/argocd"
-                  "name" = "argocd-home"
+                  "name"      = "argocd-home"
                 },
               ]
               "workingDir" = "/home/argocd"
@@ -15366,26 +15366,26 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
           "volumes" = [
             {
               "emptyDir" = {}
-              "name" = "argocd-home"
+              "name"     = "argocd-home"
             },
             {
               "name" = "argocd-repo-server-tls"
               "secret" = {
                 "items" = [
                   {
-                    "key" = "tls.crt"
+                    "key"  = "tls.crt"
                     "path" = "tls.crt"
                   },
                   {
-                    "key" = "tls.key"
+                    "key"  = "tls.key"
                     "path" = "tls.key"
                   },
                   {
-                    "key" = "ca.crt"
+                    "key"  = "ca.crt"
                     "path" = "ca.crt"
                   },
                 ]
-                "optional" = true
+                "optional"   = true
                 "secretName" = "argocd-repo-server-tls"
               }
             },
@@ -15399,7 +15399,7 @@ resource "kubernetes_manifest" "statefulset_argocd_application_controller" {
 resource "kubernetes_manifest" "networkpolicy_argocd_application_controller_network_policy" {
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"
-    "kind" = "NetworkPolicy"
+    "kind"       = "NetworkPolicy"
     "metadata" = {
       "name" = "argocd-application-controller-network-policy"
     }
@@ -15433,7 +15433,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_application_controller_netw
 resource "kubernetes_manifest" "networkpolicy_argocd_dex_server_network_policy" {
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"
-    "kind" = "NetworkPolicy"
+    "kind"       = "NetworkPolicy"
     "metadata" = {
       "name" = "argocd-dex-server-network-policy"
     }
@@ -15451,11 +15451,11 @@ resource "kubernetes_manifest" "networkpolicy_argocd_dex_server_network_policy" 
           ]
           "ports" = [
             {
-              "port" = 5556
+              "port"     = 5556
               "protocol" = "TCP"
             },
             {
-              "port" = 5557
+              "port"     = 5557
               "protocol" = "TCP"
             },
           ]
@@ -15468,7 +15468,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_dex_server_network_policy" 
           ]
           "ports" = [
             {
-              "port" = 5558
+              "port"     = 5558
               "protocol" = "TCP"
             },
           ]
@@ -15489,7 +15489,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_dex_server_network_policy" 
 resource "kubernetes_manifest" "networkpolicy_argocd_redis_network_policy" {
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"
-    "kind" = "NetworkPolicy"
+    "kind"       = "NetworkPolicy"
     "metadata" = {
       "name" = "argocd-redis-network-policy"
     }
@@ -15521,7 +15521,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_redis_network_policy" {
           ]
           "ports" = [
             {
-              "port" = 6379
+              "port"     = 6379
               "protocol" = "TCP"
             },
           ]
@@ -15542,7 +15542,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_redis_network_policy" {
 resource "kubernetes_manifest" "networkpolicy_argocd_repo_server_network_policy" {
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"
-    "kind" = "NetworkPolicy"
+    "kind"       = "NetworkPolicy"
     "metadata" = {
       "name" = "argocd-repo-server-network-policy"
     }
@@ -15574,7 +15574,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_repo_server_network_policy"
           ]
           "ports" = [
             {
-              "port" = 8081
+              "port"     = 8081
               "protocol" = "TCP"
             },
           ]
@@ -15607,7 +15607,7 @@ resource "kubernetes_manifest" "networkpolicy_argocd_repo_server_network_policy"
 resource "kubernetes_manifest" "networkpolicy_argocd_server_network_policy" {
   manifest = {
     "apiVersion" = "networking.k8s.io/v1"
-    "kind" = "NetworkPolicy"
+    "kind"       = "NetworkPolicy"
     "metadata" = {
       "name" = "argocd-server-network-policy"
     }
